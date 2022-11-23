@@ -1,0 +1,222 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProgAssignment
+{
+    public class DataAccessLayer
+    {
+        private string connectionString = "Server=tcp:hackoverflow.database.windows.net,1433;Initial Catalog=ProgAssignment1;Persist Security Info=False;User ID=hackoverflowadmin;Password=hackoverflowuser123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+     
+
+        //Student-
+        //methods
+
+        public void CreateStudent(string studentID, string studentName) //Create student
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlDataAdapter adapter = AdapterManager.CreateStudentAdapter(connection))
+                {
+                    DataSet dataSetStudents = new DataSet();
+                    adapter.Fill(dataSetStudents);
+
+                    DataTable dataTableStudent = dataSetStudents.Tables["Table"];
+
+                    DataRow newStudentRow = dataTableStudent.NewRow();
+
+                    newStudentRow["studentID"] = studentID;
+                    newStudentRow["studentname"] = studentName;
+
+                    dataTableStudent.Rows.Add(newStudentRow);
+
+                    adapter.Update(dataSetStudents);
+
+                }
+            }
+        }
+
+
+        public DataSet GetStudents() //Read student
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlDataAdapter adapter = AdapterManager.CreateStudentAdapter(connection))
+                {
+<<<<<<< HEAD
+
+                    DataSet dataSetStudents = new DataSet();
+
+=======
+
+                    DataSet dataSetStudents = new DataSet();
+
+>>>>>>> master
+                    adapter.Fill(dataSetStudents);
+
+                    return dataSetStudents;
+
+                }
+            }
+        }
+
+
+        public void UpdateStudent(string studentID, string studentName) //Uppdate student
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "UPDATE Student SET studentID = @stuID, studentName @stuNA WHERE studentID = @add";
+
+                    command.Parameters.AddWithValue("@stuID", studentID);
+                    command.Parameters.AddWithValue("@stuNA", studentName);
+
+                }
+            }
+        }
+
+        public void DeleteStudent(string studentID) //Delete student
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "DELETE FROM Student WHERE studentID = @studentID";
+
+                    command.Parameters.AddWithValue("@studentID", studentID);
+                }
+            }
+        }
+
+        //Course-
+        //methods
+        public void AddCourse() //Add course
+        {
+
+        }
+
+
+        public void GetCourse() //Read course
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = "SELECT * FROM Course";
+                    command.Connection = connection;
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Console.WriteLine(reader.GetString(1));
+                        }
+
+                    }
+                }
+            }
+        }
+
+        public void UpdateCourse() //Update course
+        {
+
+        }
+
+        public void DeleteCourse() //Delete course
+        {
+
+        }
+
+        //Teacher-
+        //methods
+
+        public void AddTeacher()
+        {
+
+        }
+
+        public void ReadTeacher()
+        {
+
+        }
+
+        public void UpdateTeacher()
+        {
+
+        }
+
+        public void DeleteTeacher()
+        {
+
+        }
+
+
+        //Exam-
+        //methods
+        public void AddExam(string examId, int points) 
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+             
+            {
+                command.CommandText = @"INSERT INTO Student (examId, points) VALUES (examId, points)";
+                command.Connection = connection; 
+                     
+                    using (SqlDataAdapter adapter = new SqlDataAdapter())
+                    {
+                        adapter.SelectCommand = command;
+
+                        DataSet dataset = new DataSet();
+                    }
+                }
+            }
+        }
+
+        public void ReadExam()
+        {
+
+        }
+
+        public void UpdateExam()
+        {
+
+        }
+
+        public void DeleteExam()
+        {
+
+        }
+
+
+        //StudentLoan-
+        //methods
+        public void AddStudentLoan()
+        {
+
+        }
+
+        public void ReadStudentLoan()
+        {
+
+        }
+
+        public void UpdateStudentLoan()
+        {
+
+        }
+
+        public void DeleteStudentLoan()
+        {
+
+        }
+
+    }
+}
